@@ -7,23 +7,21 @@
 # Exit on error
 set -e
 
-echo "Setting up AI Story to Video Converter..."
-
-# Check if Python is installed
+# Check for Python 3
 if ! command -v python3 &> /dev/null; then
-    echo "Python 3 is not installed. Please install Python 3.12 or higher."
+    echo "Python 3 is required but not installed. Please install Python 3.12 or higher."
     exit 1
 fi
 
-# Check if pip is installed
-if ! command -v pip3 &> /dev/null; then
-    echo "pip3 is not installed. Please install pip."
+# Check for pip
+if ! command -v pip &> /dev/null; then
+    echo "pip is required but not installed. Please install pip."
     exit 1
 fi
 
-# Check if Rust is installed
+# Check for Rust
 if ! command -v rustc &> /dev/null; then
-    echo "Rust is not installed. Installing Rust..."
+    echo "Rust is required but not installed. Installing Rust..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source "$HOME/.cargo/env"
 fi
@@ -42,23 +40,37 @@ source venv/bin/activate
 echo "Upgrading pip..."
 pip install --upgrade pip
 
-# Install core dependencies first
+# Install core dependencies
 echo "Installing core dependencies..."
-pip install gTTS pillow moviepy requests
+pip install flask==3.0.2 \
+    flask-cors==3.0.10 \
+    gTTS==2.5.1 \
+    Pillow==10.2.0 \
+    moviepy==1.0.3 \
+    python-dotenv==0.19.0 \
+    requests==2.31.0
 
 # Install AI/ML dependencies
 echo "Installing AI/ML dependencies..."
-pip install transformers
-pip install diffusers
-pip install torch torchvision torchaudio
+pip install huggingface-hub \
+    transformers==4.37.2 \
+    diffusers==0.25.0 \
+    torch==2.2.0 \
+    torchvision==0.17.0 \
+    torchaudio==2.2.0 \
+    accelerate==1.5.2
 
 # Create necessary directories
 echo "Creating project directories..."
-mkdir -p app/utils static templates
+mkdir -p app/utils static/css static/js templates
 
 # Create __init__.py files
-touch app/__init__.py
-touch app/utils/__init__.py
+echo "Creating Python package files..."
+touch app/__init__.py app/utils/__init__.py
+
+# Make the script executable
+chmod +x setup.sh
 
 echo "Setup completed successfully!"
-echo "You can now activate the virtual environment with: source venv/bin/activate" 
+echo "To activate the virtual environment, run: source venv/bin/activate"
+echo "To start the application, run: python app.py" 

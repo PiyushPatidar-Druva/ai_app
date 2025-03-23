@@ -1,51 +1,60 @@
 # AI Story to Video Converter
 
-This application converts text stories into videos by generating images using AI and combining them with text-to-speech narration.
+This application converts text stories into engaging videos suitable for YouTube monetization. It uses AI to generate images and convert text to speech, creating a complete video with narration and visuals.
 
 ## Features
 
-- Text-to-speech conversion using gTTS
+- Text-to-speech conversion using Google Text-to-Speech (gTTS)
 - AI-powered image generation using Stable Diffusion
-- Video creation with synchronized audio and images
-- Downloadable video output
+- Automatic video creation with synchronized narration and images
+- Simple web interface for story input and video generation
+- Support for multiple languages
 
 ## Prerequisites
 
 - Python 3.12 or higher
 - pip (Python package installer)
-- Rust (for tokenizers package)
-- Virtual environment (recommended)
+- Rust (will be installed automatically if not present)
+- Git (for cloning the repository)
 
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/PiyushPatidar-Druva/ai_app.git
 cd ai_app
 ```
 
-2. Create and activate a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Unix/macOS
-# OR
-.\venv\Scripts\activate  # On Windows
-```
-
-3. Install Rust (required for tokenizers):
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-
-4. Run the setup script:
+2. Make the setup script executable and run it:
 ```bash
 chmod +x setup.sh
 ./setup.sh
 ```
 
+The setup script will:
+- Create a virtual environment
+- Install all required dependencies
+- Set up the project structure
+- Configure necessary directories
+
 ## Usage
 
-[Add usage instructions once the application is implemented]
+1. Activate the virtual environment:
+```bash
+source venv/bin/activate
+```
+
+2. Start the application:
+```bash
+python app.py
+```
+
+3. Open your web browser and navigate to:
+```
+http://localhost:5000
+```
+
+4. Enter your story text in the web interface and click "Generate Video"
 
 ## Project Structure
 
@@ -53,22 +62,41 @@ chmod +x setup.sh
 ai_app/
 ├── app/
 │   ├── __init__.py
-│   ├── routes.py
+│   ├── app.py
 │   └── utils/
-│       ├── text_to_speech.py
+│       ├── __init__.py
 │       ├── image_generator.py
+│       ├── text_to_speech.py
 │       └── video_creator.py
 ├── static/
+│   ├── css/
+│   └── js/
 ├── templates/
 ├── requirements.txt
 ├── setup.sh
 └── README.md
 ```
 
+## Dependencies
+
+- Flask: Web framework
+- gTTS: Text-to-speech conversion
+- Pillow: Image processing
+- MoviePy: Video creation
+- Transformers & Diffusers: AI image generation
+- PyTorch: Deep learning framework
+- Accelerate: Optimized inference
+
 ## Contributing
 
-[Add contribution guidelines if needed]
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-[Add license information] 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Google Text-to-Speech (gTTS) for text-to-speech conversion
+- Hugging Face for providing the Stable Diffusion model
+- The open-source community for various tools and libraries used in this project 
