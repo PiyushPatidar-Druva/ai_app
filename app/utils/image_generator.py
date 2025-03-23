@@ -54,16 +54,15 @@ def generate_images(text, num_images=2):
         list: List of paths to the generated images
     """
     try:
-        # Initialize the Stable Diffusion pipeline
+        # Initialize the Stable Diffusion pipeline with a smaller model
         pipe = StableDiffusionPipeline.from_pretrained(
-            "runwayml/stable-diffusion-v1-5",
-            torch_dtype=torch.float16,
+            "CompVis/stable-diffusion-v1-4",  # Using a smaller model
+            torch_dtype=torch.float32,  # Using float32 for better CPU compatibility
             use_safetensors=True
         )
         
-        # Move the pipeline to GPU if available
-        if torch.cuda.is_available():
-            pipe = pipe.to("cuda")
+        # Enable memory efficient attention
+        pipe.enable_attention_slicing()
         
         # Split text into scenes
         scenes = split_text_into_scenes(text)
@@ -72,14 +71,16 @@ def generate_images(text, num_images=2):
         image_paths = []
         for scene in scenes:
             # Create a more specific prompt
-            prompt = f"high quality, detailed, cinematic scene, 4k resolution: {scene}"
+            prompt = f"high quality scene: {scene}"
             
-            # Generate images for the scene
+            # Generate images for the scene with reduced steps
             images = pipe(
                 prompt,
-                num_inference_steps=20,
-                num_images_per_prompt=1,  # Generate one image per scene
-                guidance_scale=7.5
+                num_inference_steps=15,  # Reduced from 20
+                num_images_per_prompt=1,
+                guidance_scale=7.0,  # Slightly reduced
+                height=512,  # Reduced resolution
+                width=512
             ).images
             
             # Save the first image
