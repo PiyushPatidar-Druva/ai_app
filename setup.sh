@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# AI Story to Video Converter Setup Script
+# Repository: https://github.com/PiyushPatidar-Druva/ai_app
+# This script automates the installation process for the AI Story to Video Converter
+
 # Exit on error
 set -e
 
